@@ -42,6 +42,7 @@ $result = $conn->query($query);
                     <td>
                         <button class="btn btn-warning btn-sm edit-btn" 
                                 data-id="<?= $row['user_id']; ?>"
+                                data-old-knowledge="<?= $row['knowledge_id']; ?>" 
                                 data-knowledge="<?= $row['knowledge_id']; ?>"
                                 data-name="<?= $row['Heading']; ?>"
                                 data-bs-toggle="modal" data-bs-target="#editSkillModal">
@@ -101,6 +102,7 @@ $result = $conn->query($query);
             <div class="modal-body">
                 <form action="../actions/update_skill.php" method="POST">
                     <input type="hidden" name="user_id" id="edit-user-id">
+                    <input type="hidden" name="old_knowledge_id" id="edit-old-knowledge-id">
                     <label>Skill:</label>
                     <select name="knowledge_id" id="edit-knowledge-id" class="form-control" required>
                         <?php
@@ -132,6 +134,7 @@ $result = $conn->query($query);
     document.querySelectorAll(".edit-btn").forEach(button => {
         button.addEventListener("click", function() {
             document.getElementById("edit-user-id").value = this.getAttribute("data-id");
+            document.getElementById("edit-old-knowledge-id").value = this.getAttribute("data-old-knowledge"); // Store old skill
             document.getElementById("edit-knowledge-id").value = this.getAttribute("data-knowledge");
         });
     });
