@@ -5,21 +5,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_id = $_POST['user_id'];
     $knowledge_id = $_POST['knowledge_id'];
 
-    // Check if the user already has a skill assigned
-    $stmtCheck = $conn->prepare("SELECT COUNT(*) FROM `user_knowledge` WHERE user_id = ?");
-    $stmtCheck->bind_param("i", $user_id);
+    // Check if the user already has this specific skill
+    $stmtCheck = $conn->prepare("SELECT COUNT(*) FROM `user_knowledge` WHERE user_id = ? AND knowledge_id = ?");
+    $stmtCheck->bind_param("ii", $user_id, $knowledge_id);
     $stmtCheck->execute();
     $stmtCheck->bind_result($existingSkillCount);
     $stmtCheck->fetch();
     $stmtCheck->close();
 
     if ($existingSkillCount > 0) {
-        echo "<script>alert('User already has a skill!'); window.location.href='../pages/skills.php';</script>";
+        echo "<script>alert('User already has this skill!'); window.location.href='../pages/skills.php';</script>";
         exit();
     }
 
     // Fetch heading from knowledge_area
-    $stmtHeading = $conn->prepare("SELECT Heading FROM `knowledge area` WHERE knowledge_id = ?");
+    $stmtHeading = $conn->prepare("SELECT Heading FROM `Knowledge Area` WHERE knowledge_id = ?");
     $stmtHeading->bind_param("i", $knowledge_id);
     $stmtHeading->execute();
     $stmtHeading->bind_result($heading);

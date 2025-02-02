@@ -3,10 +3,11 @@ include "../config/db.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_id = $_POST['user_id'];
+    $old_knowledge_id = $_POST['old_knowledge_id']; // Get previous skill ID
     $new_knowledge_id = $_POST['knowledge_id'];
 
     // Fetch the heading from knowledge_area based on the new knowledge_id
-    $stmtHeading = $conn->prepare("SELECT Heading FROM `knowledge area` WHERE knowledge_id = ?");
+    $stmtHeading = $conn->prepare("SELECT Heading FROM `Knowledge Area` WHERE knowledge_id = ?");
     $stmtHeading->bind_param("i", $new_knowledge_id);
     $stmtHeading->execute();
     $stmtHeading->bind_result($new_heading);
@@ -18,9 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    // Update knowledge_id and heading in user_knowledge table
-    $stmt = $conn->prepare("UPDATE `user_knowledge` SET knowledge_id = ?, heading = ? WHERE user_id = ?");
-    $stmt->bind_param("isi", $new_knowledge_id, $new_heading, $user_id);
+    // Update knowledge_id and heading in user_knowledge table (update only the specific skill, not overwrite all)
+    $stmt = $conn->prepare("UPDATE `user_knowledge` SET knowledge_id = ?, heading = ? WHERE user_id = ? AND knowledge_id = ?");
+    $stmt->bind_param("isii", $new_knowledge_id, $new_heading, $user_id, $old_knowledge_id);
 
     if ($stmt->execute()) {
         echo "<script>alert('Skill updated successfully!'); window.location.href='../pages/skills.php';</script>";

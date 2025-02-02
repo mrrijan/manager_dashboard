@@ -560,7 +560,7 @@ ALTER TABLE `Knowledge Entries`
 -- Constraints for table `Login Table`
 --
 ALTER TABLE `Login Table`
-  ADD CONSTRAINT `Login Table_ibfk_1` FOREIGN KEY (`User ID`) REFERENCES `user_knowledge` (`user_id`);
+  ADD CONSTRAINT `Login Table_ibfk_1` FOREIGN KEY (`User ID`) REFERENCES `users_info` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Notifications`
