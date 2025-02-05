@@ -137,6 +137,14 @@ CREATE TABLE `projects` (
   `project_status` enum('active','inactive') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE `tags` (
+  `tagId` INT(255) NOT NULL AUTO_INCREMENT,
+  `tagName` VARCHAR(255) NOT NULL,
+  `tagType` ENUM('Technical', 'Non-Technical') NOT NULL,
+  PRIMARY KEY (`tagId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 --
 -- Dumping data for table `projects`
 --
@@ -617,6 +625,21 @@ COMMIT;
 
 ALTER TABLE `Knowledge Entries`
 MODIFY `Post ID` INT(255) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `Knowledge Entries` DROP COLUMN `Tags`;
+
+ALTER TABLE `Knowledge Entries`
+ADD COLUMN `tagId` INT(255) NOT NULL,
+ADD CONSTRAINT `fk_knowledge_tags`
+FOREIGN KEY (`tagId`) REFERENCES `tags`(`tagId`)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+INSERT INTO `tags` (`tagName`, `tagType`) VALUES
+('General IT', 'Technical'),
+('Windows Updates', 'Technical'),
+('Health and Safety', 'Non-Technical'),
+('Technical Setup', 'Technical');
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

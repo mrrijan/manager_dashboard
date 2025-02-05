@@ -41,6 +41,7 @@ sidebar.php
     <a href="../pages/projects.php"><i class="fas fa-folder-open"></i> Projects</a>
     <a href="../pages/users.php"><i class="fas fa-users"></i> Users</a>
     <a href="../pages/tasks.php"><i class="fas fa-tasks"></i> Tasks</a>
+    <a href="../pages/tags.php"> Tags</a>
     <a href="../pages/knowledge.php"><i class="fas fa-book"></i>  Knowledge Base</a>
     <a href="../pages/skills.php"><i class="fas fa-chart-line"></i> Skill Tracking</a>
     <a href="../pages/todo.php"><i class="fas fa-list-alt"></i> Todo List</a>
