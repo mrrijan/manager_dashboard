@@ -3,9 +3,11 @@ include "../config/db.php";
 include "../includes/header.php";
 include "../includes/sidebar.php";
 
-$query = "SELECT ke.*, ui.first_name, ui.last_name 
+// Fetch knowledge entries along with user and tag details
+$query = "SELECT ke.*, ui.first_name, ui.last_name, t.tagName 
           FROM `knowledge entries` ke 
           JOIN users_info ui ON ke.Author = ui.user_id 
+          JOIN tags t ON ke.tagId = t.tagId
           ORDER BY `ke`.`Creation Date` DESC";
 $result = $conn->query($query);
 ?>
@@ -24,7 +26,7 @@ $result = $conn->query($query);
                 <th>Preview</th>
                 <th>Author</th>
                 <th>Tags</th>
-                <th>Section</th>
+                <th>Knowledge Section</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -34,16 +36,16 @@ $result = $conn->query($query);
                     <td><?= htmlspecialchars($row['Post Title']); ?></td>
                     <td><?= htmlspecialchars($row['Post Preview']); ?></td>
                     <td><?= $row['first_name'] . " " . $row['last_name']; ?></td>
-                    <td><?= $row['Tags']; ?></td>
-                    <td><?= $row['knowledge section']; ?></td>
+                    <td><?= htmlspecialchars($row['tagName']); ?></td>
+                    <td><?= htmlspecialchars($row["knowledge section"]) ?>
+                    </td>
                     <td>
                         <button class="btn btn-warning btn-sm edit-btn" 
                                 data-id="<?= $row['Post ID']; ?>"
                                 data-title="<?= htmlspecialchars($row['Post Title']); ?>"
                                 data-preview="<?= htmlspecialchars($row['Post Preview']); ?>"
                                 data-content="<?= htmlspecialchars($row['Post Data']); ?>"
-                                data-tags="<?= $row['Tags']; ?>"
-                                data-section="<?= $row['knowledge section']; ?>"
+                                data-tag="<?= $row['tagId']; ?>"
                                 data-bs-toggle="modal" data-bs-target="#editKnowledgeModal">
                             Edit
                         </button>
@@ -73,16 +75,13 @@ $result = $conn->query($query);
                     <label>Content:</label>
                     <textarea name="content" class="form-control" required></textarea>
                     <label>Tags:</label>
-                    <select name="tags" class="form-control">
-                        <option value="General IT">General IT</option>
-                        <option value="Windows Updates">Windows Updates</option>
-                        <option value="Health and Safety">Health and Safety</option>
-                        <option value="Technical Setup">Technical Setup</option>
-                    </select>
-                    <label>Knowledge Section:</label>
-                    <select name="section" class="form-control">
-                        <option value="Technical">Technical</option>
-                        <option value="Non Technical">Non-Technical</option>
+                    <select name="tag_id" class="form-control">
+                        <?php
+                            $tags = $conn->query("SELECT * FROM `tags`");
+                            while ($tag = $tags->fetch_assoc()) {
+                                echo "<option value='{$tag['tagId']}'>{$tag['tagName']}</option>";
+                            }
+                        ?>
                     </select>
                     <button type="submit" class="btn btn-success mt-3">Add Entry</button>
                 </form>
@@ -109,16 +108,13 @@ $result = $conn->query($query);
                     <label>Content:</label>
                     <textarea name="content" id="edit-entry-content" class="form-control" required></textarea>
                     <label>Tags:</label>
-                    <select name="tags" id="edit-entry-tags" class="form-control">
-                        <option value="General IT">General IT</option>
-                        <option value="Windows Updates">Windows Updates</option>
-                        <option value="Health and Safety">Health and Safety</option>
-                        <option value="Technical Setup">Technical Setup</option>
-                    </select>
-                    <label>Knowledge Section:</label>
-                    <select name="section" id="edit-entry-section" class="form-control">
-                        <option value="Technical">Technical</option>
-                        <option value="Non Technical">Non-Technical</option>
+                    <select name="tag_id" id="edit-entry-tags" class="form-control">
+                        <?php
+                            $tags = $conn->query("SELECT * FROM `tags`");
+                            while ($tag = $tags->fetch_assoc()) {
+                                echo "<option value='{$tag['tagId']}'>{$tag['tagName']}</option>";
+                            }
+                        ?>
                     </select>
                     <button type="submit" class="btn btn-success mt-3">Save Changes</button>
                 </form>
@@ -144,8 +140,7 @@ $result = $conn->query($query);
             document.getElementById("edit-entry-title").value = this.getAttribute("data-title");
             document.getElementById("edit-entry-preview").value = this.getAttribute("data-preview");
             document.getElementById("edit-entry-content").value = this.getAttribute("data-content");
-            document.getElementById("edit-entry-tags").value = this.getAttribute("data-tags");
-            document.getElementById("edit-entry-section").value = this.getAttribute("data-section");
+            document.getElementById("edit-entry-tags").value = this.getAttribute("data-tag");
         });
     });
 </script>

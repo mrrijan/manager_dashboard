@@ -634,6 +634,9 @@ ADD CONSTRAINT `fk_knowledge_tags`
 FOREIGN KEY (`tagId`) REFERENCES `tags`(`tagId`)
 ON DELETE CASCADE ON UPDATE CASCADE;
 
+ALTER TABLE `Knowledge Entries`
+MODIFY `knowledge section` ENUM('Technical', 'Non-Technical') NOT NULL;
+
 INSERT INTO `tags` (`tagName`, `tagType`) VALUES
 ('General IT', 'Technical'),
 ('Windows Updates', 'Technical'),
