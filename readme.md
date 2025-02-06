@@ -27,6 +27,12 @@ MANAGER_DASHBOARD/
 │ ├── register_user.php # User registration script
 │── team020.sql # Database schema and seed data
 
+For tags :
+tags.php (used to show all the tags , in this page you can see db.php , header and sidebar is included so please use your own when integrating it in admin side)
+add_tag.php (inside actions used to add tags)
+update_tag.php(inside actions used to update tags)
+delete_tag.php(inside actions used to delete tag)
+
 This project was developed using WampServer 3.3.2 - 64bit with the following stack:
 
 - Apache 2.4.58
