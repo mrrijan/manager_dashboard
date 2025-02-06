@@ -27,11 +27,12 @@ MANAGER_DASHBOARD/
 │ ├── register_user.php # User registration script
 │── team020.sql # Database schema and seed data
 
-For tags :
-tags.php (used to show all the tags , in this page you can see db.php , header and sidebar is included so please use your own when integrating it in admin side)
-add_tag.php (inside actions used to add tags)
-update_tag.php(inside actions used to update tags)
-delete_tag.php(inside actions used to delete tag)
+Tags Management (Admin Integration)
+
+tags.php: Displays all tags in the admin panel. It includes db.php, header.php, and sidebar.php but should be customized based on the admin panel integration.
+add_tag.php (inside actions/): Adds new tags to the database.
+update_tag.php (inside actions/): Updates existing tags.
+delete_tag.php (inside actions/): Deletes tags from the database.
 
 This project was developed using WampServer 3.3.2 - 64bit with the following stack:
 
