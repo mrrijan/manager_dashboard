@@ -92,7 +92,7 @@ Ensure your web server (Apache/Nginx) and MySQL database are running.
 
 Place the project inside your server's root directory (htdocs for XAMPP, www for WAMP, etc.).
 
-Access the dashboard via http://localhost/MANAGER_DASHBOARD/public/login.php.
+Access the dashboard via http://localhost/MANAGER_DASHBOARD/login.php.
 
 🔧 Key Features
 
